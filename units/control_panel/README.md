@@ -45,32 +45,42 @@ To start I would recommend taking a look these sources:
 6. Connect the panel to your computer via a USB cable
 7. Check if the panel is detected:
    `adb devices -l`
-   If panel is detected you will see something similar to this:
-   `D:\adb>adb devices -l`
-   `List of devices attached`
-   `F061512302021100016 device product:px30_evb model:px30_evb device:px30_evb transport_id:3`
-8. Set ADB to connect over TCP/IP:
+8. If panel is detected you will see something similar to this:
+
+   D:\adb>adb devices -l
+   List of devices attached
+   F061512302021100016 device product:px30_evb model:px30_evb device:px30_evb transport_id:3
+
+9. Set ADB to connect over TCP/IP:
    `adb tcpip 5555`
-9. Get panel IP address:
-   `adb shell ip -o a`
-10. Connect to the panel:
+10. Get panel IP address:
+    `adb shell ip -o a`
+11. Connect to the panel:
     `adb connect [panel_ip]`
-11. Set the panel to always listen for ADB over IP:
+12. Set the panel to always listen for ADB over IP:
     `adb shell setprop persist.adb.tcp.port 5555`
-12. Disconnect the panel from USB and assemble it
-13. Power up and connect the panel to wired or wireless network
-14. Connect to the panel via the new IP:
+13. Disconnect the panel from USB and assemble it
+14. Power up and connect the panel to wired or wireless network
+15. Connect to the panel via the new IP:
     `adb connect [new_panel_ip]`
-15. Install ultra small launcher:
+16. Install ultra small launcher:
     `adb install ultra-small-launcher.apk`
-16. Simulate home hey press:
+17. Simulate home key press:
     `adb shell input keyevent 3`
-17. Select the new launcher
-18. Disable Tuya spyware:
-    `adb shell`
-    `su`
-    `pm disable com.tuya.iotgateway.launcher`
-    `pm disable com.smartpad.fourinchneeu.smart` or for global models `pm disable com.smartpad.fourinchnegl.smart`
+18. Select the new launcher
+19. Disable Tuya spyware:
+
+    adb shell
+    su
+    pm disable com.tuya.iotgateway.launcher
+    pm disable com.smartpad.fourinchneeu.smart
+
+or for global models
+
+```text
+    pm disable com.smartpad.fourinchnegl.smart
+```
+
 19. Install Xposed installer:
     `adb install xposed_installer.apk`
 
