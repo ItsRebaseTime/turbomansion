@@ -45,9 +45,10 @@ To start I would recommend taking a look these sources:
 6. Download [AnyWebView](https://github.com/neoblackxt/AnyWebView/releases/)
 7. Download [Fully Kiosk Browser](https://www.fully-kiosk.com/files/2024/05/Fully-Kiosk-Browser-v1.55.3.apk)
 8. Download [J Touch](https://apkpure.com/j-touch/com.bs.smarttouch.gp/downloading)
-9. Carefully disassemble your specific panel (no need for S8E)
-10. Connect the panel to your computer via a USB cable
-11. Check if the panel is detected
+9. Download [NSPanel Pro Tools](https://github.com/seaky/nspanel_pro_tools_apk/releases/download/v2.2.2/nspanel-pro-tools-2.2.2-release.apk)
+10. Carefully disassemble your specific panel (no need for S8E)
+11. Connect the panel to your computer via a USB cable
+12. Check if the panel is detected
 
     `adb devices -l`
 
@@ -57,67 +58,72 @@ To start I would recommend taking a look these sources:
     `List of devices attached`
     `F061512302021100016 device product:px30_evb model:px30_evb device:px30_evb transport_id:3`
 
-12. Set ADB to connect over TCP/IP
+13. Set ADB to connect over TCP/IP
 
     `adb tcpip 5555`
 
-13. Get panel IP address
+14. Get panel IP address
 
     `adb shell ip -o a`
 
-14. Connect to the panel
+15. Connect to the panel
 
     `adb connect [panel_ip]`
 
-15. Set the panel to always listen for ADB over IP:
+16. Set the panel to always listen for ADB over IP:
 
     `adb shell setprop persist.adb.tcp.port 5555`
 
-16. Disconnect the panel from USB and assemble it
-17. Power up and connect the panel to wired or wireless network
-18. Connect to the panel via the new IP
+17. Disconnect the panel from USB and assemble it
+18. Power up and connect the panel to wired or wireless network
+19. Connect to the panel via the new IP
 
     `adb connect [new_panel_ip]`
 
-19. Install ultra small launcher
+20. Install ultra small launcher
 
     `adb install ultra-small-launcher.apk`
 
-20. Simulate home key press
+21. Simulate home key press
 
     `adb shell input keyevent 3`
 
-21. Select the new launcher
-22. Install Fully Kiosk Browser
+22. Select the new launcher
+23. Install Fully Kiosk Browser
 
     `adb install Fully-Kiosk-Browser.apk`
 
-23. Install J Touch
+24. Install J Touch
 
     `adb install "jtouch.apk"`
 
-24. Launch J Touch and set it up so you could navigate without adb keyevent commands
-25. Install Xposed installer
+25. Launch J Touch and set it up so you could navigate without adb keyevent commands
+26. Install NSPanel Pro Tools
+
+    `adb install "nspanel-pro-tools.apk"`
+
+27. Play around with the NSPanel Pro Tools app until you are happy with the proximity sensor function. Also adjust screen sleep timeout in system settings
+28. Install Xposed installer
 
     `adb install xposed_installer.apk`
 
-26. Move Xposed framework archive to panel's internal storage
+29. Move Xposed framework archive to panel's internal storage
 
     `adb push xposed.tar /sdcard/Download/`
 
-27. Enter shell
+30. Enter shell
 
     `adb shell`
 
-28. Invoke root permissions
+31. Invoke root permissions
 
     `su`
 
-29. Disable Tuya spyware
+32. Disable Tuya spyware
 
     `pm disable com.tuya.iotgateway.launcher`
 
-30. Remove annoying overlay
+33. Remove annoying overlay
 
     `pm disable com.smartpad.fourinchneeu.smart`
 
@@ -125,55 +131,55 @@ To start I would recommend taking a look these sources:
 
     `pm disable com.smartpad.fourinchnegl.smart`
 
-31. Make filesystem writeable
+34. Make filesystem writeable
 
     `mount -o rw,remount /system`
 
-32. Navigate to the directory where Xposed framework is located
+35. Navigate to the directory where Xposed framework is located
 
     `cd /sdcard/Download/`
 
-33. Extract the xposed.tar file
+36. Extract the xposed.tar file
 
     `tar -xvf xposed.tar`
 
-34. Change into the new directory
+37. Change into the new directory
 
     `cd /sdcard/Download/xposed/`
 
-35. Make the installer script executable
+38. Make the installer script executable
 
     `chmod a+x /sdcard/Download/xposed/META-INF/com/google/android/flash-script.sh`
 
-36. Run Xposed framework installer script
+39. Run Xposed framework installer script
 
     `sh /sdcard/Download/xposed/META-INF/com/google/android/flash-script.sh`
 
-37. Reboot, it may take some time
+40. Reboot, it may take some time
 
     `reboot`
 
-38. Open launcher and launch the Xposed app
+41. Open launcher and launch the Xposed app
 
     `adb shell input keyevent 3`
 
-39. Check if the Xposed status is active
-40. Install AnyWebView
+42. Check if the Xposed status is active
+43. Install AnyWebView
 
     `adb install AnyWebView.apk`
 
-41. Open Xposed again, open Modules from the left menu and activate AnyWebView.
-42. Reboot, this time it should be faster
+44. Open Xposed again, open Modules from the left menu and activate AnyWebView.
+45. Reboot, this time it should be faster
 
     `adb shell reboot`
 
-43. Install WebView, it may take a while
+46. Install WebView, it may take a while
 
     `adb install "WebView.apk"`
 
-44. Go to Settings -> System -> About tablet -> Build Number and tap the “Build Number” option 7 times to enable developer options.
-45. Go to Developer options, navigate to WebView Implementation and choose your WebView instead of the outdated “Android System WebView 61.x”
-46. Open Fully Kiosk Browser and set it up for your Home Assistant installation
+47. Go to Settings -> System -> About tablet -> Build Number and tap the “Build Number” option 7 times to enable developer options.
+48. Go to Developer options, navigate to WebView Implementation and choose your WebView instead of the outdated “Android System WebView 61.x”
+49. Open Fully Kiosk Browser and set it up for your Home Assistant installation
 
 ## Home Assistant
 
