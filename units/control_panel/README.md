@@ -181,6 +181,18 @@ To start I would recommend taking a look these sources:
 48. Go to Developer options, navigate to WebView Implementation and choose your WebView instead of the outdated “Android System WebView 61.x”
 49. Open Fully Kiosk Browser and set it up for your Home Assistant installation
 
+## Snapcast
+
+The display has quite an adequate integrated speaker which could be used for audio playback so while still connected via ADB you can download and install snapcast client
+
+1. Download [snapdroid - the snapcast client app](https://github.com/badaix/snapdroid/releases)
+
+2. Install snapdroid
+
+   `adb install snapdroid.apk`
+
+3. Open the app and set it up
+
 ## Home Assistant
 
 ### Cards
