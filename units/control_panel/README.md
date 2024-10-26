@@ -1,6 +1,6 @@
 # Control panel
 
-![control panel](/units/control_panel/assets/2022-4-6-inch-Tuya-Smart-Home-Multi-functional-Touch-Screen-Control-Panel-Gateway-Light-Switch.jpg)
+![control panel](/units/control_panel/assets/media/2022-4-6-inch-Tuya-Smart-Home-Multi-functional-Touch-Screen-Control-Panel-Gateway-Light-Switch.jpg)
 
 ## Features
 
@@ -33,7 +33,7 @@ To start I would recommend taking a look these sources:
 
 2. A video and blogpost by [Home Automation Guy](https://www.youtube.com/@HomeAutomationGuy):
    https://www.homeautomationguy.io/blog/home-assistant-wall-panels-with-a-tuya-s6e
-   [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/EuVUarY-Bh0/0.jpg)](https://www.youtube.com/watch?v=EuVUarY-Bh0 "Video")
+   [![IMAGE](https://img.youtube.com/vi/EuVUarY-Bh0/0.jpg)](https://www.youtube.com/watch?v=EuVUarY-Bh0 "Video")
 
 ### TLDR:
 
@@ -181,9 +181,36 @@ To start I would recommend taking a look these sources:
 48. Go to Developer options, navigate to WebView Implementation and choose your WebView instead of the outdated “Android System WebView 61.x”
 49. Open Fully Kiosk Browser and set it up for your Home Assistant installation
 
+## Modifications for POE splitter and assembly
+
+In EU we have 68 mm round electrical boxes and some have an elongated compartment to fit all the cables and POE splitters:
+
+![IMAGE](/units/control_panel/assets/media/box_example_1.jpg)
+![IMAGE](/units/control_panel/assets/media/box_example_2.png)
+
+Since the power supply of the display is designed for the square electrical boxes a spacer which nicely accommodates the power supply PCB and can be mounted to EU boxes was designed:
+
+[![IMAGE](/units/control_panel/assets/media/spacer_cad.png)](/units/control_panel/assets/CAD/spacer.step "3MF")
+
+Assembly steps:
+
+![IMAGE](/units/control_panel/assets/media/1_parts.jpg)
+![IMAGE](/units/control_panel/assets/media/2_soldered_wires.jpg)
+![IMAGE](/units/control_panel/assets/media/3_attached_power_wire.jpg)
+![IMAGE](/units/control_panel/assets/media/4_plastic_backplate.jpg)
+![IMAGE](/units/control_panel/assets/media/5_printed_spacer.jpg)
+![IMAGE](/units/control_panel/assets/media/6_rear_view.jpg)
+![IMAGE](/units/control_panel/assets/media/7_metal_backplate.jpg)
+![IMAGE](/units/control_panel/assets/media/8_attached_poe_splitter.jpg)
+![IMAGE](/units/control_panel/assets/media/9_patch_cable_connection.jpg)
+![IMAGE](/units/control_panel/assets/media/10_stuffed_in_box.jpg)
+![IMAGE](/units/control_panel/assets/media/11_placed_on_box.jpg)
+![IMAGE](/units/control_panel/assets/media/12_screwed_in.jpg)
+![IMAGE](/units/control_panel/assets/media/13_mounted_screen.jpg)
+
 ## Snapcast
 
-The display has quite an adequate integrated speaker which could be used for audio playback so while still connected via ADB you can download and install snapcast client
+The display has quite an adequate integrated speaker which could be used for audio playback in conjunction with [Music Assistant Addon](https://music-assistant.io/) So while still connected via ADB you can download and install snapcast client
 
 1. Download [snapdroid - the snapcast client app](https://github.com/badaix/snapdroid/releases)
 
