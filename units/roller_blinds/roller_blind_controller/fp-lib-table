@@ -1,0 +1,5 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "TMC2209_SILENTSTEPSTICK")(type "KiCad")(uri "${KIPRJMOD}/libs/TMC2209_SILENTSTEPSTICK")(options "")(descr ""))
+  (lib (name "M5Stack_POE")(type "KiCad")(uri "${KIPRJMOD}/libs/M5Stack_POE/M5Stack_POE.pretty")(options "")(descr ""))
+)

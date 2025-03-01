@@ -1,0 +1,250 @@
+(footprint "M5Stack_POE_module"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at 4.112 11.557 90)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "43138e9d-9ac9-4c24-b4d3-4183edaa89c7")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+		)
+	)
+	(property "Value" "M5Stack_POE_module"
+		(at 5.612 11.557 90)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "ddb2b246-4004-4721-a9a6-e33c8356c18f")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Footprint" ""
+		(at 2.278 13.843 90)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "4262b1b6-b4e1-4ecc-a7a3-56a6683a55a0")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 2.278 13.843 90)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "788198e2-f394-40ce-a2d9-40a2ce1be0e3")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 2.278 13.843 90)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "0475f8cd-2c88-45a2-9f6f-ddbb496013e7")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -1.143 8.763)
+		(end -1.143 19.177)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "0f1205cc-c8c4-425d-8631-d57852eb7af5")
+	)
+	(fp_line
+		(start -1.143 19.177)
+		(end 1.143 19.177)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "51ce875c-1bc5-47d9-8975-b13e722d1941")
+	)
+	(fp_line
+		(start 1.143 -1.143)
+		(end 12.7 -1.143)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "5f93c086-8f0e-4916-aefc-39bb8244e6a8")
+	)
+	(fp_line
+		(start 1.143 8.763)
+		(end -1.143 8.763)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "393f81a2-45b3-4748-b778-1cd3e4f72784")
+	)
+	(fp_line
+		(start 1.143 8.763)
+		(end 1.143 -1.143)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "49a4ed52-0a60-481c-95fa-577616e24f6d")
+	)
+	(fp_line
+		(start 1.143 19.177)
+		(end 1.143 24.003)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "0bd6a811-8074-4070-b161-f119f0dacb45")
+	)
+	(fp_line
+		(start 1.143 24.003)
+		(end 12.7 24.003)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "760370cf-05c0-4b14-9daa-a7e0570572bd")
+	)
+	(fp_line
+		(start 11.684 10.795)
+		(end 11.684 18.796)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "dedbeccf-5dbf-4b2c-97ba-4954ec94d3bd")
+	)
+	(fp_line
+		(start 11.684 18.796)
+		(end 12.7 18.796)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "a8b4c348-ac39-4af7-9c56-13a949a164aa")
+	)
+	(fp_line
+		(start 12.7 -1.143)
+		(end 12.7 10.795)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "21fca9da-68ee-417e-aab3-fb5dc42cd220")
+	)
+	(fp_line
+		(start 12.7 10.795)
+		(end 11.684 10.795)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "fb40209b-1550-4a42-a3a3-de1e2248a113")
+	)
+	(fp_line
+		(start 12.7 18.796)
+		(end 12.7 24.003)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(layer "Dwgs.User")
+		(uuid "644644ca-7661-4100-8629-3bb13ba7fafd")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 7.112 11.557 90)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "aa89e17e-ffc9-410d-9450-9a35bdbf8c62")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" thru_hole trapezoid
+		(at 0 0)
+		(size 2 2)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "689e6fe9-8899-477c-8432-3fda28c6b6b3")
+	)
+	(pad "2" thru_hole trapezoid
+		(at 0 2.54)
+		(size 2 2)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "c0d4076b-cb23-4270-8a10-643189ff5cad")
+	)
+	(pad "3" thru_hole trapezoid
+		(at 0 5.08)
+		(size 2 2)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "8e066e5b-4381-450b-9b44-3c0e4e46cc34")
+	)
+	(pad "4" thru_hole trapezoid
+		(at 0 7.62)
+		(size 2 2)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "24f79a4d-b4bd-4894-b7a9-f7c6ff3e3ef6")
+	)
+	(pad "5" thru_hole trapezoid
+		(at 0 20.32)
+		(size 2 2)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "2224c231-0f9f-4f11-8853-2ce7609806c1")
+	)
+	(pad "6" thru_hole trapezoid
+		(at 0 22.86)
+		(size 2 2)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "18d76da4-a7ad-43b3-9a0a-2aed63c29d79")
+	)
+)
