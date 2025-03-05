@@ -12,25 +12,28 @@ There are a few offerings in the industry but they have their own downsides:
 |---------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Powershades TruePoE](https://powershades.com/truepoe)                                                                          | All-in-one solution, easy to deploy                                                                                      | Cloud-based, unrepairable (no available parts), not sold in EU                                                                                       |
 | [Somfy Sonesse® 30 PoE (and other variations)](https://www.somfysystems.com/en-us/products/1241147/sonesse-30-poe)              | All-in-one solution, easy to deploy                                                                                      | Too expensive (400 eur), unrepairable (no available parts), proprietary control interface                                                            |
-| [Smart wings hardwired PoE roller blinds](https://www.smartwingshome.com/pages/the-worlds-first-poe-matter-over-ethernet-motor) | All-in-one solution, easy to deploy, optional PoE and DC power, compatible with Home Assistant and matter out of the box | The motor itself is 170eur, unrepairable (no available parts), but it is still the best solution if you want plug and play PoE powered roller blinds |
+| [Smart wings hardwired PoE roller blinds](https://www.smartwingshome.com/pages/the-worlds-first-poe-matter-over-ethernet-motor) | All-in-one solution, easy to deploy, optional PoE and DC power, compatible with Home Assistant and Matter out of the box | The motor itself is 170eur, unrepairable (no available parts), but it is still the best solution if you want plug and play PoE powered roller blinds |
 
 ## Features
 
-| Feature      | Specifications                                                      |
-|--------------|---------------------------------------------------------------------|
-| PoE          | 802.3af, 6W                                                         |
-| Ethernet     | 802.3-2008, 10/100Mbps                                              |
-| WiFi         | 802.11b/g/n, 150Mbps                                                |
-| Bluetooth    | Bluetooth v4.2 BR/EDR and Bluetooth LE                              |
-| Motor driver | TMC2209, silent, sensor-less homing, speed and acceleration control |
+| Feature      | Specifications                                                      | Note     |
+|--------------|---------------------------------------------------------------------|----------|
+| PoE          | 802.3af, 6W                                                         |          |
+| Ethernet     | 802.3-2008, 10/100Mbps                                              |          |
+| WiFi         | 802.11b/g/n, 150Mbps                                                | Optional |
+| Bluetooth    | Bluetooth v4.2 BR/EDR and Bluetooth LE                              | Optional |
+| Motor driver | TMC2209, silent, sensor-less homing, speed and acceleration control |          |
 
 ## Main parts
 
-| Part                                      | Datasheet                                                                   | EU Shop                                                                                                       |
-|-------------------------------------------|-----------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
-| M5Stack PoE ESP32                         | [link](/units/roller_blinds/assets/docs/poesp32.pdf)                        | [link](https://eu.mouser.com/ProductDetail/M5Stack/U138?qs=vvQtp7zwQdPAxf%252BUv9YNIg%3D%3D)                  |
-| FYSETC TMC2209 V3/V4 stepper motor driver | [link](/units/roller_blinds/assets/docs/Silent2209%20-%20FYSETC%20WIKI.pdf) | [link](https://www.amazon.de/-/en/Printer-Upgrade-Microsteps-Motherboard-Controller/dp/B07Z8QP8M9/ref=sr_1_3) |
-| 2.54mm female header kit                  |                                                                             | [link](https://www.amazon.de/-/en/Straight-Connector-Assortment-Arduino-Prototype/dp/B07Q1XBGFB/ref=sr_1_2)   |
+| Part                                      | Datasheet                                                                   | EU Shop                                                                                                         |
+|-------------------------------------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| M5Stack PoE ESP32                         | [link](/units/roller_blinds/assets/docs/poesp32.pdf)                        | [link](https://eu.mouser.com/ProductDetail/M5Stack/U138?qs=vvQtp7zwQdPAxf%252BUv9YNIg%3D%3D)                    |
+| FYSETC TMC2209 V3/V4 stepper motor driver | [link](/units/roller_blinds/assets/docs/Silent2209%20-%20FYSETC%20WIKI.pdf) | [link](https://www.amazon.de/-/en/Printer-Upgrade-Microsteps-Motherboard-Controller/dp/B07Z8QP8M9/ref=sr_1_3)   |
+| 2.54mm female header kit                  |                                                                             | [link](https://www.amazon.de/-/en/Straight-Connector-Assortment-Arduino-Prototype/dp/B07Q1XBGFB/ref=sr_1_2)     |
+| M3 screw kit                              |                                                                             | [link](https://www.amazon.de/-/en/Countersunk-Stainless-Phillips-Assortment-Threaded/dp/B0DPKYXVWY/ref=sr_1_15) |
+| M4 screw kit                              |                                                                             | [link](https://www.amazon.de/-/en/Countersunk-Stainless-Phillips-Assortment-Threaded/dp/B0DPL17F6X/ref=sr_1_15) |
+| 8x2 round magnets                         |                                                                             | [link](https://www.amazon.de/-/en/Aenienoe-Magnets-Neodymium-Magnetic-Whiteboard/dp/B0DDBQJ7TM/ref=sr_1_5)      |
 
 ## 3D printed parts
 
