@@ -5,7 +5,7 @@
 ## Features
 
 | Feature    | Specifications                                                     |
-| ---------- | ------------------------------------------------------------------ |
+|------------|--------------------------------------------------------------------|
 | POE        | 802.3af, 6W                                                        |
 | Ethernet   | 802.3-2008, 10/100Mbps                                             |
 | WiFi       | 802.11b/g/n, 150Mbps                                               |
@@ -17,8 +17,7 @@
 ## Parts list
 
 | Part                                                       | Datasheet                                                                                       | EU Shop                                                                                                  |
-| ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| IKEA VINDRIKTNING                                          | [link](/units/multisensor/docs/vindriktning-air-quality-sensor__AA-2289325-2-100.pdf)           | [link](https://www.ikea.com/us/en/p/vindriktning-air-quality-sensor-60515911/)                           |
+|------------------------------------------------------------|-------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
 | Ceiling mount                                              | [link](/units/multisensor/docs/Delta-Opti%20Datasheet-TP-202.pdf)                               | [link](https://shopdelta.eu/camera-bracket-tp-202_l2_p15561.html)                                        |
 | M5Stack POE ESP32                                          | [link](/units/multisensor/docs/poesp32.pdf)                                                     | [link](https://eu.mouser.com/ProductDetail/M5Stack/U138?qs=vvQtp7zwQdPAxf%252BUv9YNIg%3D%3D)             |
 | SEN54                                                      | [link](/units/multisensor/docs/Sensirion_Datasheet_Environmental_Node_SEN5x.pdf)                | [link](https://eu.mouser.com/ProductDetail/Sensirion/SEN54-SDN-T?qs=doiCPypUmgETgnCgwG%2FXqw%3D%3D)      |

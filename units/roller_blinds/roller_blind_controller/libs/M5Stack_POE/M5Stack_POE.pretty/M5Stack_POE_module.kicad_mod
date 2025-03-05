@@ -1,7 +1,7 @@
 (footprint "M5Stack_POE_module"
-	(version 20240108)
+	(version 20241229)
 	(generator "pcbnew")
-	(generator_version "8.0")
+	(generator_version "9.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
 		(at 4.112 11.557 90)
@@ -20,19 +20,6 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "ddb2b246-4004-4721-a9a6-e33c8356c18f")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
-	)
-	(property "Footprint" ""
-		(at 2.278 13.843 90)
-		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
-		(uuid "4262b1b6-b4e1-4ecc-a7a3-56a6683a55a0")
 		(effects
 			(font
 				(size 1 1)
@@ -247,4 +234,5 @@
 		(remove_unused_layers no)
 		(uuid "18d76da4-a7ad-43b3-9a0a-2aed63c29d79")
 	)
+	(embedded_fonts no)
 )

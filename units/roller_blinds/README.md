@@ -11,7 +11,7 @@ There are a few offerings in the industry but they have their own downsides:
 | Product                                                                                                                         | Features                                                                                                                 | Antifeatures                                                                                                                                         |
 |---------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Powershades TruePoE](https://powershades.com/truepoe)                                                                          | All-in-one solution, easy to deploy                                                                                      | Cloud-based, unrepairable (no available parts), not sold in EU                                                                                       |
-| [Somfy Sonesse® 30 PoE (and other variations)]()                                                                                | All-in-one solution, easy to deploy                                                                                      | Too expensive (400 eur), unrepairable (no available parts), proprietary control interface                                                            |
+| [Somfy Sonesse® 30 PoE (and other variations)](https://www.somfysystems.com/en-us/products/1241147/sonesse-30-poe)              | All-in-one solution, easy to deploy                                                                                      | Too expensive (400 eur), unrepairable (no available parts), proprietary control interface                                                            |
 | [Smart wings hardwired PoE roller blinds](https://www.smartwingshome.com/pages/the-worlds-first-poe-matter-over-ethernet-motor) | All-in-one solution, easy to deploy, optional PoE and DC power, compatible with Home Assistant and matter out of the box | The motor itself is 170eur, unrepairable (no available parts), but it is still the best solution if you want plug and play PoE powered roller blinds |
 
 ## Features
@@ -89,7 +89,8 @@ Now the motor will work with any common stepper motor driver.
 
 The 28BYJ-48 motor is designed to take full 5V current on half of its coil. After the modification we technically doubled the coil resistance and can crank the TMC2209 driver current all the way up with the on-board potentiometer. I used FYSETC TMC2209 V4.0 driver boards so for me the potentiometer should be turned all the way clockwise.
 
-If you are using any other TMC2209 driver - double check the RX, TX, INDEX, and DIAG pin positions, they differ from driver to driver and you may need to creatively add 1k resistor between RX and TX pins on the board. Also some of the boards have VREF, DIAG, and INDEX pins switched around. PCB only supports driver boards which have INDEX and DIAG pins at 90 degrees from the other pins.
+> [!NOTE]
+> If you are using any other TMC2209 driver - double check the RX, TX, INDEX, and DIAG pin positions, they differ from driver to driver and you may need to creatively add 1k resistor between RX and TX pins on the board. Also some of the boards have VREF, DIAG, and INDEX pins switched around. PCB only supports driver boards which have INDEX and DIAG pins at 90 degrees from the other pins.
 
 ## Electronics assembly
 
@@ -104,4 +105,535 @@ And the complete mechanical assembly looks like this:
 
 ## ESPHome configuration
 
+```
+esphome:
+  name: blinds
+  friendly_name: Blinds
+  on_boot:
+    - tmc2209.configure:
+        microsteps: 1
+        interpolation: True
+        enable_spreadcycle: False
+        tcool_threshold: 1000 # SG can be triggered when speed exceeds this value
+    - tmc2209.stallguard:
+        threshold: 5 # SG is triggered if the SG value is lower than 2x threshold
+    - tmc2209.currents:
+        standstill_mode: normal # coil_short_ls
+        irun: 31 # 16 for best microstep performance (16/32 = 1/2 maximum motor current)
+        ihold: 16 # should be 0 to enable passive breaking
+        tpowerdown: 0
+        iholddelay: 0
+    - button.press: home_button # home right after boot
 
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+    
+# Enable logging
+logger:
+  hardware_uart: UART2
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "xxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+ota:
+  - platform: esphome
+    password: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+ethernet:
+  type: IP101
+  mdc_pin: GPIO23
+  mdio_pin: GPIO18
+  clk_mode: GPIO0_IN
+  phy_addr: 1
+  power_pin: GPIO5
+
+text_sensor:
+  - platform: ethernet_info
+    ip_address:
+      name: "IP"
+    mac_address:
+      name: "MAC"
+    dns_address:
+      name: "DNS"
+
+external_components:
+  - source: github://slimcdk/esphome-custom-components
+    components: [ tmc2209_hub, tmc2209, stepper ]
+
+globals:
+  - id: has_homed
+    type: bool
+    initial_value: "true"
+    restore_value: False
+  - id: blinds_bottom_pos
+    type: int
+    initial_value: '9999'
+    restore_value: True
+  - id: blinds_top_pos
+    type: int
+    initial_value: '0'
+    restore_value: True
+
+uart:
+  id: tmc2209_uart
+  rx_pin: GPIO1
+  tx_pin: GPIO3
+  baud_rate: 500000
+  
+tmc2209_hub:
+  id: tmc_hub
+  uart_id: tmc2209_uart
+
+stepper:
+  - platform: tmc2209
+    id: driver
+    tmc2209_hub_id: tmc_hub
+    diag_pin: GPIO17
+    index_pin: GPIO16
+    max_speed: 50 steps/s
+    acceleration: 20 steps/s^2
+    deceleration: 20 steps/s^2
+    address: 0x00
+    # rsense: 110 mOhm
+    vsense: False
+    on_status:
+      - logger.log:
+          format: "Driver is reporting an update! (code %d)"
+          args: ["code"]
+      - if:
+          condition:
+            lambda: return code == tmc2209::DIAG_TRIGGERED;
+          then:
+            - logger.log: DIAG_TRIGGERED
+      - if:
+          condition:
+            lambda: return code == tmc2209::DIAG_TRIGGER_CLEARED;
+          then:
+            - logger.log: DIAG_TRIGGER_CLEARED
+      - if:
+          condition:
+            lambda: return code == tmc2209::RESET;
+          then:
+            - logger.log: RESET
+      - if:
+          condition:
+            lambda: return code == tmc2209::RESET_CLEARED;
+          then:
+            - logger.log: RESET_CLEARED
+      - if:
+          condition:
+            lambda: return code == tmc2209::DRIVER_ERROR;
+          then:
+            - logger.log: DRIVER_ERROR
+      - if:
+          condition:
+            lambda: return code == tmc2209::DRIVER_ERROR_CLEARED;
+          then:
+            - logger.log: DRIVER_ERROR_CLEARED
+      - if:
+          condition:
+            lambda: return code == tmc2209::CP_UNDERVOLTAGE;
+          then:
+            - logger.log: CP_UNDERVOLTAGE
+      - if:
+          condition:
+            lambda: return code == tmc2209::CP_UNDERVOLTAGE_CLEARED;
+          then:
+            - logger.log: CP_UNDERVOLTAGE_CLEARED
+      - if:
+          condition:
+            lambda: return code == tmc2209::OVERTEMPERATURE_PREWARNING;
+          then:
+            - logger.log: OVERTEMPERATURE_PREWARNING
+      - if:
+          condition:
+            lambda: return code == tmc2209::OVERTEMPERATURE_PREWARNING_CLEARED;
+          then:
+            - logger.log: OVERTEMPERATURE_PREWARNING_CLEARED
+      - if:
+          condition:
+            lambda: return code == tmc2209::OVERTEMPERATURE;
+          then:
+            - logger.log: OVERTEMPERATURE
+      - if:
+          condition:
+            lambda: return code == tmc2209::OVERTEMPERATURE_CLEARED;
+          then:
+            - logger.log: OVERTEMPERATURE_CLEARED
+      - if:
+          condition:
+            lambda: return code == tmc2209::TEMPERATURE_ABOVE_120C;
+          then:
+            - logger.log: TEMPERATURE_ABOVE_120C
+      - if:
+          condition:
+            lambda: return code == tmc2209::TEMPERATURE_BELOW_120C;
+          then:
+            - logger.log: TEMPERATURE_BELOW_120C
+      - if:
+          condition:
+            lambda: return code == tmc2209::TEMPERATURE_ABOVE_143C;
+          then:
+            - logger.log: TEMPERATURE_ABOVE_143C
+      - if:
+          condition:
+            lambda: return code == tmc2209::TEMPERATURE_BELOW_143C;
+          then:
+            - logger.log: TEMPERATURE_BELOW_143C
+      - if:
+          condition:
+            lambda: return code == tmc2209::TEMPERATURE_ABOVE_150C;
+          then:
+            - logger.log: TEMPERATURE_ABOVE_150C
+      - if:
+          condition:
+            lambda: return code == tmc2209::TEMPERATURE_BELOW_150C;
+          then:
+            - logger.log: TEMPERATURE_BELOW_150C
+      - if:
+          condition:
+            lambda: return code == tmc2209::TEMPERATURE_ABOVE_157C;
+          then:
+            - logger.log: TEMPERATURE_ABOVE_157C
+      - if:
+          condition:
+            lambda: return code == tmc2209::TEMPERATURE_BELOW_157C;
+          then:
+            - logger.log: TEMPERATURE_BELOW_157C
+      - if:
+          condition:
+            lambda: return code == tmc2209::OPEN_LOAD;
+          then:
+            - logger.log: OPEN_LOAD
+      - if:
+          condition:
+            lambda: return code == tmc2209::OPEN_LOAD_CLEARED;
+          then:
+            - logger.log: OPEN_LOAD_CLEARED
+      - if:
+          condition:
+            lambda: return code == tmc2209::OPEN_LOAD_A;
+          then:
+            - logger.log: OPEN_LOAD_A
+      - if:
+          condition:
+            lambda: return code == tmc2209::OPEN_LOAD_A_CLEARED;
+          then:
+            - logger.log: OPEN_LOAD_A_CLEARED
+      - if:
+          condition:
+            lambda: return code == tmc2209::OPEN_LOAD_B;
+          then:
+            - logger.log: OPEN_LOAD_B
+      - if:
+          condition:
+            lambda: return code == tmc2209::OPEN_LOAD_B_CLEARED;
+          then:
+            - logger.log: OPEN_LOAD_B_CLEARED
+      - if:
+          condition:
+            lambda: return code == tmc2209::LOW_SIDE_SHORT;
+          then:
+            - logger.log: LOW_SIDE_SHORT
+      - if:
+          condition:
+            lambda: return code == tmc2209::LOW_SIDE_SHORT_CLEARED;
+          then:
+            - logger.log: LOW_SIDE_SHORT_CLEARED
+      - if:
+          condition:
+            lambda: return code == tmc2209::LOW_SIDE_SHORT_A;
+          then:
+            - logger.log: LOW_SIDE_SHORT_A
+      - if:
+          condition:
+            lambda: return code == tmc2209::LOW_SIDE_SHORT_A_CLEARED;
+          then:
+            - logger.log: LOW_SIDE_SHORT_A_CLEARED
+      - if:
+          condition:
+            lambda: return code == tmc2209::LOW_SIDE_SHORT_B;
+          then:
+            - logger.log: LOW_SIDE_SHORT_B
+      - if:
+          condition:
+            lambda: return code == tmc2209::LOW_SIDE_SHORT_B_CLEARED;
+          then:
+            - logger.log: LOW_SIDE_SHORT_B_CLEARED
+      - if:
+          condition:
+            lambda: return code == tmc2209::GROUND_SHORT;
+          then:
+            - logger.log: GROUND_SHORT
+      - if:
+          condition:
+            lambda: return code == tmc2209::GROUND_SHORT_CLEARED;
+          then:
+            - logger.log: GROUND_SHORT_CLEARED
+      - if:
+          condition:
+            lambda: return code == tmc2209::GROUND_SHORT_A;
+          then:
+            - logger.log: GROUND_SHORT_A
+      - if:
+          condition:
+            lambda: return code == tmc2209::GROUND_SHORT_A_CLEARED;
+          then:
+            - logger.log: GROUND_SHORT_A_CLEARED
+      - if:
+          condition:
+            lambda: return code == tmc2209::GROUND_SHORT_B;
+          then:
+            - logger.log: GROUND_SHORT_B
+      - if:
+          condition:
+            lambda: return code == tmc2209::GROUND_SHORT_B_CLEARED;
+          then:
+            - logger.log: GROUND_SHORT_B_CLEARED
+    on_stall:
+      - logger.log: "Motor stalled!"
+      - if:
+          condition:
+            lambda: |-
+              return !id(has_homed);
+          then:
+            - stepper.stop: driver
+            - stepper.report_position:
+                id: driver
+                position: 0
+            - stepper.set_target:
+                id: driver
+                target: 0
+            - globals.set:
+                id: has_homed
+                value: "true"
+            - logger.log: "Homed"
+
+button:
+  - platform: template
+    entity_category: DIAGNOSTIC
+    id: home_button
+    name: "Home"
+    on_press:
+      - logger.log: "Going home!"
+      - globals.set:
+          id: has_homed
+          value: "false"
+      - stepper.set_target:
+          id: driver
+          target: -9999999
+
+  - platform: template
+    entity_category: DIAGNOSTIC
+    id: set_bottom_pos_button
+    name: "Set bottom position"
+    on_press:
+      then:
+        - globals.set: 
+            id: blinds_bottom_pos
+            value: !lambda 'return id(driver)->current_position;'
+        - lambda: |-
+            ESP_LOGD("Blinds", "Setting bottom position to: %d", id(driver)->current_position);
+
+  - platform: template
+    entity_category: DIAGNOSTIC
+    id: set_top_pos_button
+    name: "Set top position"
+    on_press:
+      then:
+        - globals.set: 
+            id: blinds_top_pos
+            value: !lambda 'return id(driver)->current_position;'
+        - lambda: |-
+            ESP_LOGD("Blinds", "Setting top position to: %d", id(driver)->current_position);
+
+  - platform: template
+    entity_category: DIAGNOSTIC
+    name: "10 Steps forward"
+    on_press:
+      - stepper.set_target:
+          id: driver
+          target: !lambda 'return id(driver)->current_position +10;'
+
+  - platform: template
+    entity_category: DIAGNOSTIC
+    name: "10 Steps backward"
+    on_press:
+      - stepper.set_target:
+          id: driver
+          target: !lambda 'return id(driver)->current_position -10;'
+
+  - platform: template
+    entity_category: DIAGNOSTIC
+    name: "100 Steps forward"
+    on_press:
+      - stepper.set_target:
+          id: driver
+          target: !lambda 'return id(driver)->current_position +100;'
+
+  - platform: template
+    entity_category: DIAGNOSTIC
+    name: "100 Steps backward"
+    on_press:
+      - stepper.set_target:
+          id: driver
+          target: !lambda 'return id(driver)->current_position -100;'
+
+  - platform: template
+    entity_category: DIAGNOSTIC
+    name: "1000 Steps forward"
+    on_press:
+      - stepper.set_target:
+          id: driver
+          target: !lambda 'return id(driver)->current_position +1000;'
+
+  - platform: template
+    entity_category: DIAGNOSTIC
+    name: "1000 Steps backward"
+    on_press:
+      - stepper.set_target:
+          id: driver
+          target: !lambda 'return id(driver)->current_position -1000;'
+
+  - platform: template
+    name: Stop
+    on_press:
+      - stepper.stop: driver
+
+  - platform: restart
+    name: "Restart"
+
+cover:
+  - platform: template
+    device_class: blind
+    id: blinds
+    name: "Blinds"
+    optimistic: False
+    has_position: True
+
+    lambda: |-
+      #define MAP_FLOAT(x, in_min, in_max, out_min, out_max) ((float)(x - in_min) * (out_max - out_min) / (float)(in_max - in_min) + out_min)
+      return MAP_FLOAT(id(stepper_position_sensor)->state, id(blinds_top_pos), id(blinds_bottom_pos), 1.0, 0.0);
+    open_action:
+      - if:
+          condition:
+            lambda: |-
+              return id(has_homed);
+          then:
+            - stepper.set_target: 
+                id: driver
+                target: !lambda 'return id(blinds_top_pos);'
+    close_action:
+      - if:
+          condition:
+            lambda: |-
+              return id(has_homed);
+          then:
+            - stepper.set_target: 
+                id: driver
+                target: !lambda 'return id(blinds_bottom_pos);'
+    stop_action: 
+      then:
+        - stepper.stop: driver
+    position_action: 
+      - if:
+          condition:
+            lambda: |-
+              return id(has_homed);
+          then:
+            - stepper.set_target: 
+                id: driver
+                target: !lambda |-
+                  #define MAP_FLOAT(x, in_min, in_max, out_min, out_max) ((float)(x - in_min) * (out_max - out_min) / (float)(in_max - in_min) + out_min)
+                  int pos_to_set = MAP_FLOAT(pos, 0.0, 1.0, id(blinds_bottom_pos), id(blinds_top_pos));
+                  ESP_LOGD("Blinds", "Rolling blinds to: %d (%f)", pos_to_set, pos);
+                  return pos_to_set;
+        
+binary_sensor:
+  - platform: template
+    id: homed_status_sensor
+    entity_category: DIAGNOSTIC
+    name: "Homed status"
+    lambda: |-
+      return id(has_homed);
+
+sensor:
+  - platform: template
+    entity_category: DIAGNOSTIC
+    id: top_position_sensor
+    name: "Top position"
+    accuracy_decimals: 0
+    unit_of_measurement: "steps"
+    filters:
+      - delta: 1
+    lambda: |-
+      return id(blinds_top_pos);
+
+  - platform: template
+    entity_category: DIAGNOSTIC
+    id: bottom_position_sensor
+    name: "Bottom position"
+    accuracy_decimals: 0
+    unit_of_measurement: "steps"
+    filters:
+      - delta: 1
+    lambda: |-
+      return id(blinds_bottom_pos);
+
+  - platform: template
+    entity_category: DIAGNOSTIC
+    id: stepper_position_sensor
+    name: "Position"
+    unit_of_measurement: "steps"
+    accuracy_decimals: 0
+    update_interval: 1s
+    filters:
+      - delta: 1
+    lambda: |-
+      return id(driver)->current_position;
+
+  - platform: tmc2209
+    entity_category: DIAGNOSTIC
+    internal: True
+    type: stallguard_result
+    name: Driver stallguard
+    update_interval: 250ms
+    filters:
+      - delta: 1
+
+  # - platform: tmc2209
+  #   entity_category: DIAGNOSTIC
+  #   type: motor_load
+  #   name: Motor load
+  #   update_interval: 250ms
+
+  # - platform: tmc2209
+  #   type: actual_current
+  #   name: Actual current
+  #   update_interval: 250ms
+
+  # - platform: tmc2209
+  #   type: pwm_scale_sum
+  #   name: PWM Scale Sum
+  #   update_interval: 250ms
+
+  # - platform: tmc2209
+  #   type: pwm_scale_auto
+  #   name: PWM Scale Auto
+  #   update_interval: 250ms
+
+  # - platform: tmc2209
+  #   type: pwm_ofs_auto
+  #   name: PWM OFS Auto
+  #   update_interval: 250ms
+
+  # - platform: tmc2209
+  #   type: pwm_grad_auto
+  #   name: PWM Grad Auto
+  #   update_interval: 250ms
+
+```

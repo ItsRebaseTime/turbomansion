@@ -1,0 +1,5 @@
+﻿Designator,Footprint,Quantity,Value,LCSC Part #
+J1,JST_XH_B5B-XH-A_1x05_P2.50mm_Vertical,1,Conn_01x05,
+U1,M5Stack_POE_base,1,~,
+U2,M5Stack_POE_module,1,~,
+U3,MODULE_TMC2209_SILENTSTEPSTICK,1,TMC2209_SILENTSTEPSTICK,

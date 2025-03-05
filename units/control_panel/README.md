@@ -55,7 +55,9 @@ To start I would recommend taking a look these sources:
     If panel is detected you will see something similar to this
 
     `D:\adb>adb devices -l`
+
     `List of devices attached`
+
     `F061512302021100016 device product:px30_evb model:px30_evb device:px30_evb transport_id:3`
 
 13. Set ADB to connect over TCP/IP
@@ -219,7 +221,3 @@ The display has quite an adequate integrated speaker which could be used for aud
    `adb install snapdroid.apk`
 
 3. Open the app and set it up
-
-## Home Assistant
-
-### Cards
