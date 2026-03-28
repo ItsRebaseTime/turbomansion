@@ -35,3 +35,8 @@ Main goal of this project is to create a fully open source smart home units libr
 ### PoE roller blinds
 
 [PoE roller blinds](/units/roller_blinds/README.md) - Smart and automated PoE powered roller blinds.
+
+### DT82TV curtain motor controller
+
+[DT82TV curtain motor controller](/units/rs485_dooya_curtain_controller/README.md) - RS485 controller setup for Dooya DT82TV curtain motors with ESPHome.
+
