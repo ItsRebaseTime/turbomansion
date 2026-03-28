@@ -54,40 +54,79 @@ uart:
 
 cover:
   - platform: dooya
-    name: Dooya Curtain
+    name: "All curtains"
+    id: all_curtains
     address: 0xFEFE
+    device_class: curtain
+
+  - platform: dooya
+    name: "Right curtain"
+    id: right_curtain
+    address: 0x0101
+    device_class: curtain
+
+  - platform: dooya
+    name: "Left curtain"
+    id: left_curtain
+    address: 0x0102
     device_class: curtain
 
 button:
   - platform: dooya
     type: get_status
-    name: Dooya Curtain Get Status
-  - platform: dooya
-    type: change_address
-    name: Dooya Curtain Change Address
+    dooya_id: left_curtain
+    name: "Left curtain get status"
   - platform: dooya
     type: clear_positioning
-    name: Dooya Curtain Clear Positioning
+    dooya_id: left_curtain
+    name: "Left curtain clear positioning"
   - platform: dooya
     type: factory_reset
-    name: Dooya Curtain Factory Reset
+    dooya_id: left_curtain
+    name: "Left curtain factory reset"
+
+  - platform: dooya
+    type: get_status
+    dooya_id: right_curtain
+    name: "Right curtain get status"
+  - platform: dooya
+    type: clear_positioning
+    dooya_id: right_curtain
+    name: "Right curtain clear positioning"
+  - platform: dooya
+    type: factory_reset
+    dooya_id: right_curtain
+    name: "Right curtain factory reset"
+
+  - platform: dooya
+    type: change_address 
+    dooya_id: all_curtains
+    name: "Change Address"
 
 text:
   - platform: dooya
-    name: Dooya Curtain Address Input
+    name: "Address Input"
+    dooya_id: all_curtains
     mode: TEXT
 
 text_sensor:
   - platform: dooya
-    name: Dooya Curtain Address Change Status
+    dooya_id: all_curtains
+    name: "Address change status"
 
 switch:
   - platform: dooya
     type: invert_direction
-    name: Dooya Curtain Invert Direction
+    dooya_id: left_curtain
+    name: "Left curtain invert direction"
+  - platform: dooya
+    type: invert_direction
+    dooya_id: right_curtain
+    name: "Right curtain invert direction"
   - platform: dooya
     type: pull_to_start
-    name: Dooya Curtain Pull to Start
+    dooya_id: all_curtains
+    name: "All curtains pull to start"
 ```
 
 ## ESP-NOW remote control
