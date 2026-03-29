@@ -56,19 +56,19 @@ cover:
   - platform: dooya
     name: "All curtains"
     id: all_curtains
-    address: 0xFEFE
+    address: 0x0000
     device_class: curtain
 
   - platform: dooya
     name: "Right curtain"
     id: right_curtain
-    address: 0x0101
+    address: 0x0102
     device_class: curtain
 
   - platform: dooya
     name: "Left curtain"
     id: left_curtain
-    address: 0x0102
+    address: 0x0101
     device_class: curtain
 
 button:
