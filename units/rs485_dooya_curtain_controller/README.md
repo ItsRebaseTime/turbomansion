@@ -47,14 +47,12 @@ external_components:
     refresh: 0s
 
 uart:
-  id: gree_uart
   tx_pin: 16
   rx_pin: 17
   baud_rate: 9600
 
 cover:
   - platform: dooya
-    name: "All curtains"
     id: all_curtains
     address: 0x0000
     device_class: curtain
