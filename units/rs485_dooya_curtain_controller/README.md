@@ -1,6 +1,6 @@
 ## Why DT82TV?
 
-Well one short answer - wire is king. Although his motor can be controlled via RF remote or even without the remote at all by pulling the curtain to soft-start the opening/closing, the best feature it has is the RS485 connection port, which allows to control multiple (up to 32) DT82TV or similar motors with a single pair of wires - no WiFi or Zigbee or other wireless bullshit needed, simple reliable plain old wire.
+Well one short answer - wire is king. Although this motor can be controlled via RF remote or even without the remote at all by pulling the curtain to soft-start the opening/closing, the best feature it has is the RS485 connection port, which allows to control multiple (up to 32) DT82TV or similar motors with a single pair of wires - no WiFi or Zigbee or other wireless bullshit needed, simple reliable plain old wire.
 
 ### Required components
 
